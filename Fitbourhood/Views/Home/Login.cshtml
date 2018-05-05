@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Logowanie";
+}
+@model Fitbourhood.Models.User
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content" style="position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0; height: 30%;">
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            <div style="width: 500px; margin: 0 auto;">
+                <div style="background-color: #42A5F5; height: 300px; display: flex; justify-content: center; align-items: center">
+                    <div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Email, new { type = "email", @class = "form-control", ariaDescribedby = "emailHelp", placeholder = "E-mail", })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(model => model.Password, new { type = "password", @class = "form-control", placeholder = "Hasło", })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "error" })
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Zaloguj" />
+                        @Html.ActionLink("Załóż konto", "Register", "Home", new { @class = "btn btn-warning", style = "float: right;" })
+                    </div>
+                </div>
+                @if (ViewBag.SuccessMessages != null)
+                {
+                    <div class="alert alert-success"><strong>@ViewBag.SuccessMessages</strong></div>
+                }
+                @if (ViewBag.ErrorMessages != null)
+                {
+                    foreach (var message in ViewBag.ErrorMessages)
+                    {
+                        <div class="alert alert-danger"><strong>@message</strong></div>
+                    }
+                }
+            </div>
+        }
+    </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
