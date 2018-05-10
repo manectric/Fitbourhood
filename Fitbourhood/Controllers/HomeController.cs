@@ -11,7 +11,7 @@ namespace Fitbourhood.Controllers
     {
         public ActionResult Index()
         {
-            return View("Login");
+            return View();
         }
 
 
@@ -22,11 +22,11 @@ namespace Fitbourhood.Controllers
             if (emailAndPasswordAreEmpty || !passwordIsCorrect)
             {
                 ViewBag.ErrorMessages = UsersRepository.ErrorList;
-                return View("Login");
+                return View("Index");
             }
             else
             {
-                return View("~/Views/SportEvent/SportEventList.cshtml");
+                return RedirectToAction("Index", "SportEvent");
 
             }
         }
@@ -41,8 +41,9 @@ namespace Fitbourhood.Controllers
         {
             if (UsersRepository.AddUser(user))
             {
-                ViewBag.SuccessMessages = "Konto zostało utworzone pomyślnie.";
-                return RedirectToAction("Index");
+                ModelState.Clear();
+                ViewBag.SuccessMessages = "Konto zostało utworzone pomyślnie";
+                return View("Index");
             }
 
             ViewBag.ErrorMessages = UsersRepository.ErrorList;

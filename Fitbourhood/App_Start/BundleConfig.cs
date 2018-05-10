@@ -26,6 +26,14 @@ namespace Fitbourhood
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fontello").Include(
+                "~/Content/css/animation.css",
+                "~/Content/css/fontello-codes.css",
+                "~/Content/css/fontello-embedded.css",
+                "~/Content/css/fontello-ie7-codes.css",
+                "~/Content/css/fontello-ie7.css",
+                "~/Content/css/fontello.css"));
         }
     }
 }

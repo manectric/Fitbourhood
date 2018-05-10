@@ -11,7 +11,7 @@ namespace Fitbourhood.Controllers
         // GET: SportEvent
         public ActionResult Index()
         {
-            return View("SportEventList");
+            return View();
         }
 
         public ActionResult SportEventDetails()

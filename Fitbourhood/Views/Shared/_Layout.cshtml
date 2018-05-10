@@ -4,12 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fontello")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+<div class="container body-content">
+    <div id="navigation-bar"><i class="icon-home" style="float: left;"></i><i class="icon-off" style="float: right;"></i><i class="icon-user" style="float: right;"></i><i class="icon-bell" style="float: right;"></i></div>
+    <img src="~/Content/Images/logo.png" id="main-logo"/>
+    <div id="border-div"></div>
+    @RenderBody()
+</div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

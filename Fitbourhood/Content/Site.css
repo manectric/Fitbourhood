@@ -33,3 +33,120 @@ textarea {
     font-size: 16px;
     width: 300px;
 }
+
+#main-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#navigation-bar {
+    height: 50px;
+    width: 100%;
+    background-color: #42A5F5;
+}
+
+#border-div {
+    height: 1px;
+    width: 100%;
+    background-color: #42A5F5;
+}
+
+#navigation-bar > i {
+    font-size: 32px;
+    margin: 9px 5px 9px 5px;
+}
+
+.sport-event-container {
+    border-color: #9b9b9b;
+    border-style: none solid solid solid;
+    border-width: thin;
+    width: 600px;
+    height: 150px;
+}
+
+.sport-event-img {
+    margin: 11px;
+    float: left;
+}
+
+.sport-event-info-col1 {
+    float: left;
+    line-height: 2.5;
+    margin: 15px;
+}
+
+.sport-event-info-col2 {
+    float: right; 
+    line-height: 2.5; 
+    margin: 15px;
+}
+
+.sport-event-info-label {
+    font-weight: bold;
+    color: #42a5f5;
+}
+
+.sport-event-info {
+    color: #9b9b9b
+}
+
+@media (max-width: 576px) and (min-width: 0px) {
+    #main-logo {
+    max-width: 410px;
+}
+#navigation-bar {
+    height: 40px;
+}
+#navigation-bar > i {
+    font-size: 22px;
+}
+}
+
+@media (min-width: 576px) {
+    #main-logo {
+        max-width: 500px;
+    }
+    #navigation-bar {
+        height: 42px;
+    }
+    #navigation-bar > i {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 768px) {
+    #main-logo {
+        max-width: 700px;
+    }
+    #navigation-bar {
+        height: 44px;
+    }
+    #navigation-bar > i {
+        font-size: 26px;
+    }
+}
+
+@media (min-width: 992px) {
+    #main-logo {
+        max-width: 930px;
+    }
+    #navigation-bar {
+        height: 48px;
+    }
+    #navigation-bar > i {
+        font-size: 30px;
+    }
+}
+
+/*@media (min-width: 1200px) {
+    #main-logo {
+        max-width: 1024px;
+    }
+    #navigation-bar > i {
+        font-size: 32px;
+    }
+    #navigation-bar {
+        height: 50px;
+    }
+}*/

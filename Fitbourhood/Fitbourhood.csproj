@@ -166,6 +166,24 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\animation.css" />
+    <Content Include="Content\css\fontello-codes.css" />
+    <Content Include="Content\css\fontello-embedded.css" />
+    <Content Include="Content\css\fontello-ie7-codes.css" />
+    <Content Include="Content\css\fontello-ie7.css" />
+    <Content Include="Content\css\fontello.css" />
+    <Content Include="Content\font\fontello.svg" />
+    <Content Include="Content\Images\basketball-128.png" />
+    <Content Include="Content\Images\man-cycling-128.png" />
+    <Content Include="Content\Images\man-cycling-32.png" />
+    <Content Include="Content\Images\basketball-32.png" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\running-128.png" />
+    <Content Include="Content\Images\running-32.png" />
+    <Content Include="Content\Images\soccer-ball-128.png" />
+    <Content Include="Content\Images\soccer-ball-32.png" />
+    <Content Include="Content\Images\volleyball-128.png" />
+    <Content Include="Content\Images\volleyball-32.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -194,6 +212,10 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\font\fontello.eot" />
+    <Content Include="Content\font\fontello.ttf" />
+    <Content Include="Content\font\fontello.woff" />
+    <Content Include="Content\font\fontello.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -228,7 +250,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -240,7 +262,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\SportEvent\SportEventDetails.cshtml" />
     <Content Include="Views\UserProfile\UserProfile.cshtml" />
-    <Content Include="Views\SportEvent\SportEventList.cshtml" />
+    <Content Include="Views\SportEvent\Index.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\PasswordReminder.cshtml" />
   </ItemGroup>
