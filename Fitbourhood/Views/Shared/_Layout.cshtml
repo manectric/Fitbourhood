@@ -6,6 +6,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/fontello")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
 <div class="container body-content">
@@ -15,7 +16,7 @@
     @RenderBody()
 </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

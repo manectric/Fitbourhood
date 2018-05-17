@@ -1,20 +1,87 @@
 ﻿@{
     ViewBag.Title = "SportEventList";
 }
-<div class="sport-event-container">
-    <img src="~/Content/Images/soccer-ball-128.png" class="sport-event-img"/>
-    <div class="sport-event-info-col1">
-        <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">Marszałkowska 200, Warszawa</span>
-        <br />
-        <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">2000-00-00</span>
-        <br />
-        <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">00:00</span>
+@using Fitbourhood.Dictionaries
+@model List<Fitbourhood.Models.SportEvent>
+<div id="filter-panel">
+
+    <div class="input-group ml-2 mt-2" style="width: 250px; float: left;">
+        <select class="custom-select" id="inputGroupSelect01">
+            <option selected>Wybierz dyscyplinę...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
     </div>
-    <div class="sport-event-info-col2">
-        <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">Marszałkowska 200, Warszawa</span>
-        <br />
-        <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">2000-00-00</span>
-        <br />
-        <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">00:00</span>
+    <div class="input-group date ml-2 mt-2" style="width: 250px; float: left;">
+        <input type="text" class="form-control datepicker" placeholder="Wybierz dzień..."><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+    </div>
+    <div class="input-group clockpicker date ml-2 mt-2" style="width: 250px; float: left;">
+        <input type="text" class="form-control" placeholder="Wybierz godzinę...">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-time"></span>
+        </span>
     </div>
 </div>
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        foreach (var sportEvent in Model)
+        {
+        <div class="sport-event-container" sport-event-id="@sportEvent.ID">
+            @if (sportEvent.DDisciplineID == (int)DDiscipline.Basketball)
+            {
+                <img src="~/Content/Images/basketball-128.png" class="sport-event-img" />
+            }
+            else if (sportEvent.DDisciplineID == (int)DDiscipline.Cycling)
+            {
+                <img src="~/Content/Images/man-cycling-128.png" class="sport-event-img" />
+            }
+            else if (sportEvent.DDisciplineID == (int)DDiscipline.Running)
+            {
+                <img src="~/Content/Images/running-128.png" class="sport-event-img" />
+            }
+            else if (sportEvent.DDisciplineID == (int)DDiscipline.Soccer)
+            {
+                <img src="~/Content/Images/soccer-ball-128.png" class="sport-event-img" />
+            }
+            else if (sportEvent.DDisciplineID == (int)DDiscipline.Volleyball)
+            {
+                <img src="~/Content/Images/volleyball-128.png" class="sport-event-img" />
+            }
+            else
+            {
+                <img src="~" class="sport-event-img" />
+            }
+            <div class="sport-event-info-col1">
+                <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">@sportEvent.Location</span>
+                <br />
+                <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date.ToShortDateString()</span>
+                <br />
+                <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">@sportEvent.Date.ToShortTimeString()</span>
+            </div>
+        </div>
+        }
+
+    }
+    else
+    {
+        <span>Obecnie nie są utworzone żadne wydarzenia sportowe.</span>
+    }
+}
+<script>
+    $(document).ready(function (){
+        $('.clockpicker').clockpicker({
+            donetext: 'Zatwierdź',
+            'default': 'now'
+        });
+
+        $('.datepicker').datepicker({
+            format: "dd-mm-yyyy",
+            language: "pl",
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+</script>
