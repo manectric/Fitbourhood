@@ -41,7 +41,7 @@ textarea {
 }
 
 #navigation-bar {
-    height: 50px;
+    display: inline-block;
     width: 100%;
     background-color: #42A5F5;
 }
@@ -53,14 +53,14 @@ textarea {
 }
 
 #filter-panel {
-    height: 120px;
+    display: inline-block;
     width: 100%;
     background-color: #42a5f5;
 }
 
 #navigation-bar > i {
     font-size: 32px;
-    margin: 9px 5px 9px 5px;
+    margin: 10px;
 }
 
 .sport-event-container {
@@ -95,12 +95,24 @@ textarea {
     color: #9b9b9b
 }
 
+.icon-span {
+    height: 38px;
+    width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-container {
+    display: table-cell;
+}
+
 @media (max-width: 576px) and (min-width: 0px) {
     #main-logo {
     max-width: 410px;
 }
 #navigation-bar {
-    height: 40px;
+    /*height: 40px;*/
 }
 #navigation-bar > i {
     font-size: 22px;
@@ -128,7 +140,7 @@ textarea {
         max-width: 500px;
     }
     #navigation-bar {
-        height: 42px;
+        /*height: 42px;*/
     }
     #navigation-bar > i {
         font-size: 24px;
@@ -156,7 +168,7 @@ textarea {
         max-width: 700px;
     }
     #navigation-bar {
-        height: 44px;
+        /*height: 44px;*/
     }
     #navigation-bar > i {
         font-size: 26px;
@@ -184,7 +196,7 @@ textarea {
         max-width: 930px;
     }
     #navigation-bar {
-        height: 48px;
+        /*height: 48px;*/
     }
     #navigation-bar > i {
         font-size: 30px;

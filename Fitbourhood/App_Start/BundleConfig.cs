@@ -22,12 +22,14 @@ namespace Fitbourhood
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap.min.js",
                       "~/Scripts/clockpicker.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-datepicker.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/bootstrap-datepicker3.css",
                       "~/Content/clockpicker.css",
                       "~/Content/site.css"));
@@ -39,6 +41,15 @@ namespace Fitbourhood
                 "~/Content/css/fontello-ie7-codes.css",
                 "~/Content/css/fontello-ie7.css",
                 "~/Content/css/fontello.css"));
+
+            bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
+                "~/Content/css/fa-regular.css",
+                "~/Content/css/fa-regular.min.css",
+                "~/Content/css/fa-solid.css",
+                "~/Content/css/fa-solid.min.css",
+                "~/Content/css/fontawesome-all.css",
+                "~/Content/css/fontawesome-all.min.css"
+                ));
         }
     }
 }

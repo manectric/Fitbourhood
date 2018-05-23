@@ -16,11 +16,24 @@ namespace Fitbourhood.Repositories
         public static List<SportEvent> GetAllSportEvents()
         {
             List<SportEvent> resultList = new List<SportEvent>();
-            string sqlSelectUserByEmail = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents]";
-            int affectedRows = 0;
+            string sqlSelectAllSportEvents = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents]";
+
             using (var connection = new SqlConnection(ConnectionString))
             {
-                resultList = connection.Query<SportEvent>(sqlSelectUserByEmail).ToList();
+                resultList = connection.Query<SportEvent>(sqlSelectAllSportEvents).ToList();
+            }
+
+            return resultList;
+        }
+
+        public static List<SportEvent> GetSportEventsFiltered(string discipline, string eventDate, string eventTime)
+        {
+            List<SportEvent> resultList = new List<SportEvent>();
+            string sqlSelectSportEventsFiltered = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] WHERE";
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                resultList = connection.Query<SportEvent>(sqlSelectSportEventsFiltered).ToList();
             }
 
             return resultList;
