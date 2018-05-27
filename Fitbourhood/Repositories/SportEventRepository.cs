@@ -16,7 +16,7 @@ namespace Fitbourhood.Repositories
         public static List<SportEvent> GetAllSportEvents()
         {
             List<SportEvent> resultList = new List<SportEvent>();
-            string sqlSelectAllSportEvents = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents]";
+            string sqlSelectAllSportEvents = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] AND HasEnded = 0";
 
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -26,10 +26,27 @@ namespace Fitbourhood.Repositories
             return resultList;
         }
 
-        public static List<SportEvent> GetSportEventsFiltered(string discipline, string eventDate, string eventTime)
+        public static List<SportEvent> GetSportEventsFiltered(SortedList<string, string> paramDictionary)
         {
             List<SportEvent> resultList = new List<SportEvent>();
-            string sqlSelectSportEventsFiltered = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] WHERE";
+            string sqlSelectSportEventsFiltered = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents]";
+
+            if (paramDictionary.Any(x => x.Value != null))
+            {
+                sqlSelectSportEventsFiltered += " WHERE ";
+                foreach (var param in paramDictionary)
+                {
+                    if (!string.IsNullOrWhiteSpace(param.Value))
+                    {
+                        sqlSelectSportEventsFiltered += string.Format("[{0}] = {1}", param.Key, param.Value);
+                        var nextParam = paramDictionary.ElementAtOrDefault(paramDictionary.IndexOfKey(param.Key) + 1);
+                        if (nextParam.Key != null && !string.IsNullOrWhiteSpace(nextParam.Value))
+                        {
+                            sqlSelectSportEventsFiltered += " AND ";
+                        }
+                    }
+                }
+            }
 
             using (var connection = new SqlConnection(ConnectionString))
             {

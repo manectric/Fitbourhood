@@ -15,7 +15,6 @@ namespace Fitbourhood.Controllers
         // GET: SportEvent
         public ActionResult Index()
         {
-            DateTime dateTime = DateTime.Now;
             SportEventListViewModel viewModel = new SportEventListViewModel();
             viewModel.SportEventList = SportEventRepository.GetAllSportEvents();
             SetEnumDDisciplineSelectList();
@@ -26,7 +25,14 @@ namespace Fitbourhood.Controllers
         [HttpPost]
         public ActionResult SportEventListFiltered(SportEventListViewModel viewModel)
         {
-            viewModel.SportEventList = SportEventRepository.GetSportEventsFiltered(((int)viewModel.DDiscipline).ToString(), viewModel.EventDate, viewModel.EventTime);
+            SortedList<string, string> paramDictionary = new SortedList<string, string>
+            {
+                { "DDisciplineID", viewModel.DDiscipline == 0 ? null : ((int)viewModel.DDiscipline).ToString() },
+                { "Date", viewModel.EventDate },
+                { "Time", viewModel.EventTime },
+                { "HasEnded", "0"}
+            };
+            viewModel.SportEventList = SportEventRepository.GetSportEventsFiltered(paramDictionary);
             SetEnumDDisciplineSelectList();
             return View("Index", viewModel);
         }
