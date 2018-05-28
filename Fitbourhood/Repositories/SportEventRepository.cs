@@ -13,22 +13,22 @@ namespace Fitbourhood.Repositories
         public static string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB";
         public static List<string> ErrorList = new List<string>();
 
-        public static List<SportEvent> GetAllSportEvents()
+        public static List<SportEventListModel> GetAllSportEvents()
         {
-            List<SportEvent> resultList = new List<SportEvent>();
-            string sqlSelectAllSportEvents = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] AND HasEnded = 0";
+            List<SportEventListModel> resultList = new List<SportEventListModel>();
+            string sqlSelectAllSportEvents = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] WHERE HasEnded = 0";
 
             using (var connection = new SqlConnection(ConnectionString))
             {
-                resultList = connection.Query<SportEvent>(sqlSelectAllSportEvents).ToList();
+                resultList = connection.Query<SportEventListModel>(sqlSelectAllSportEvents).ToList();
             }
 
             return resultList;
         }
 
-        public static List<SportEvent> GetSportEventsFiltered(SortedList<string, string> paramDictionary)
+        public static List<SportEventListModel> GetSportEventsFiltered(SortedList<string, string> paramDictionary)
         {
-            List<SportEvent> resultList = new List<SportEvent>();
+            List<SportEventListModel> resultList = new List<SportEventListModel>();
             string sqlSelectSportEventsFiltered = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents]";
 
             if (paramDictionary.Any(x => x.Value != null))
@@ -38,7 +38,7 @@ namespace Fitbourhood.Repositories
                 {
                     if (!string.IsNullOrWhiteSpace(param.Value))
                     {
-                        sqlSelectSportEventsFiltered += string.Format("[{0}] = {1}", param.Key, param.Value);
+                        sqlSelectSportEventsFiltered += string.Format("[{0}] {1}", param.Key, param.Value);
                         var nextParam = paramDictionary.ElementAtOrDefault(paramDictionary.IndexOfKey(param.Key) + 1);
                         if (nextParam.Key != null && !string.IsNullOrWhiteSpace(nextParam.Value))
                         {
@@ -50,7 +50,7 @@ namespace Fitbourhood.Repositories
 
             using (var connection = new SqlConnection(ConnectionString))
             {
-                resultList = connection.Query<SportEvent>(sqlSelectSportEventsFiltered).ToList();
+                resultList = connection.Query<SportEventListModel>(sqlSelectSportEventsFiltered).ToList();
             }
 
             return resultList;

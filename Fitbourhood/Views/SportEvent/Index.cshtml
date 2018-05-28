@@ -7,25 +7,22 @@
     @using (Html.BeginForm("SportEventListFiltered", "SportEvent", FormMethod.Post))
     { 
         <div class="input-group discipline ml-2 mt-2 mr-2 mb-2" style="width: 250px; float: left;">
-            @*@Html.DropDownList("EnumDDisciplineList", ViewBag.EnumDDisciplineList as SelectList, new { @class = "form-control" })*@
             @Html.DropDownListFor(m => m.DDiscipline, ViewBag.EnumDDisciplineList as SelectList,new { @class = "form-control" })
             @Html.HiddenFor(m => m.DDiscipline)
         </div>
         <div class="input-group date ml-2 mt-2 mr-2 mb-2" style="width: 250px; float: left;">
-            @*<input type="text" class="form-control datepicker" placeholder="Wybierz dzień...">*@
             @Html.TextBoxFor(m => m.EventDate, new { @class = "form-control", placeholder = "Wybierz dzień..."})
             @Html.HiddenFor(m => m.EventDate)
             <span class="input-group-addon icon-span"><i class="fas fa-calendar"></i></span>
         </div>
         <div class="input-group clockpicker ml-2 mt-2 mr-2 mb-2" style="width: 250px; float: left;">
-            @*<input type="text" class="form-control" placeholder="Wybierz godzinę...">*@
             @Html.TextBoxFor(m => m.EventTime, new { @class="form-control", placeholder = "Wybierz godzinę..."})
             @Html.HiddenFor(m => m.EventTime)
             <span class="input-group-addon icon-span"><i class="fas fa-clock"></i></span>
         </div>
         <div class="button-container">
             <input type="submit" class="btn btn-warning ml-2 mt-2 mr-2 mb-2" value="Szukaj" style="float: left; width: 120px;"/>
-            @Html.ActionLink("Utwórz", "", "", new { @class = "btn btn-success ml-2 mt-2 mr-2 mb-2", style = "float: left; width: 120px;" })
+            @Html.ActionLink("Utwórz", "SportEvent", "SportEvent", new { @class = "btn btn-success ml-2 mt-2 mr-2 mb-2", style = "float: left; width: 120px;" })
         </div>
     }
 </div>
@@ -63,9 +60,9 @@
             <div class="sport-event-info-col1">
                 <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">@sportEvent.Location</span>
                 <br />
-                <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date.ToShortDateString()</span>
+                <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date.ToString("yyyy-mm-dd")</span>
                 <br />
-                <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">@sportEvent.Date.ToShortTimeString()</span>
+                <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">@sportEvent.Time</span>
             </div>
         </div>
         }
@@ -85,13 +82,11 @@
 
         $('.input-group.date').datepicker({
             language: "pl",
-            format: "dd-mm-yyyy",
+            format: "yyyy-mm-dd",
             orientation: "bottom auto",
             clearBtn: true,
             autoclose: true,
             todayHighlight: true
         });
-        //$(".input-group.date").datepicker("setDate", new Date());
-        //$('.input-group.date').datepicker({ autoclose: true, });
     });
 </script>

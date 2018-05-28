@@ -37,7 +37,7 @@ namespace Fitbourhood.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(User user)
+        public ActionResult Register(UserModel user)
         {
             if (UsersRepository.AddUser(user))
             {

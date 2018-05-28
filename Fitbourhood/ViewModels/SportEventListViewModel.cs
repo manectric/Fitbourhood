@@ -8,7 +8,7 @@ namespace Fitbourhood.Models
 {
     public class SportEventListViewModel
     {
-        public List<SportEvent> SportEventList { get; set; }
+        public List<SportEventListModel> SportEventList { get; set; }
         public DDiscipline DDiscipline { get; set; }
         public string EventDate { get; set; }
         public string EventTime { get; set; }

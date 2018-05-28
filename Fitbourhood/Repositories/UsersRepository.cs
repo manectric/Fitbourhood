@@ -14,7 +14,7 @@ namespace Fitbourhood.Repositories
     {
         public static string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB";
         public static List<string> ErrorList = new List<string>();
-        public static bool AddUser(User user)
+        public static bool AddUser(UserModel user)
         {
             ErrorList = new List<string>();
             bool result = false;
@@ -71,7 +71,7 @@ namespace Fitbourhood.Repositories
             int affectedRows = 0;
             using (var connection = new SqlConnection(ConnectionString))
             {
-                var selectedRows = connection.QueryFirstOrDefault<User>(sqlSelectUserByEmail, new { email });
+                var selectedRows = connection.QueryFirstOrDefault<UserModel>(sqlSelectUserByEmail, new { email });
                 if (selectedRows != null)
                 {
                     string hashedPassword = GenerateHash(password);

@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "SportEvent";
+}
+@model Fitbourhood.Models.SportEventModel
+@using (Html.BeginForm("SportEvent", "SportEvent", FormMethod.Post))
+{
+    <div class="container">
+        <div style="background: chartreuse; width: 260px; height: 500px; display: table-cell">
+            <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                @Html.DropDownListFor(m => m.DDiscipline, ViewBag.EnumDDisciplineList as SelectList, new { @class = "form-control" })
+                @Html.HiddenFor(m => m.DDiscipline)
+            </div>
+            <div class="input-group date ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = "Wybierz dzień..." })
+                @Html.HiddenFor(m => m.Date)
+                <span class="input-group-addon icon-span"><i class="fas fa-calendar"></i></span>
+            </div>
+            <div class="input-group clockpicker ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                @Html.TextBoxFor(m => m.Time, new { @class = "form-control", placeholder = "Wybierz godzinę..." })
+                @Html.HiddenFor(m => m.Time)
+                <span class="input-group-addon icon-span"><i class="fas fa-clock"></i></span>
+            </div>
+            <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Opis...", })
+                @Html.HiddenFor(m => m.Description)
+            </div>
+        </div>
+        <div style="background: crimson; width: auto; height: 500px; display: table-cell">
+            <div id="map" style="width: 400px; height: 400px"></div>
+        </div>
+    </div>
+}
+<script>
+    var marker;
+
+    $(document).ready(function() {
+        $('.clockpicker').clockpicker({
+            donetext: 'Zatwierdź',
+            'default': 'now'
+        });
+
+        $('.input-group.date').datepicker({
+            language: "pl",
+            format: "yyyy-mm-dd",
+            orientation: "bottom auto",
+            clearBtn: true,
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+
+    // Initialize and add the map
+    function initMap() {
+        // The location of Uluru
+        var uluru = { lat: -25.344, lng: 131.036 };
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+            document.getElementById('map'),
+            { zoom: 4, center: uluru });
+        map.addListener('click', function(e) {
+            placeMarker(e.latLng, map);
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({ 'address': 'Polska' }, function (results, status) {
+            console.log(status);
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+            }
+        });
+    }
+
+
+    function placeMarker(position, map) {
+        if ( marker ) {
+            marker.setPosition(position);
+        } else {
+            marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+        }
+        map.panTo(position);
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh1VFr5HUsI0JLhxpjF4OaMXWvLU5P9zM&callback=initMap" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDnIft05bOeuRo4GtcH8Xcg1_xgywxkkKw" type="text/javascript"></script>
