@@ -3,9 +3,9 @@
     ViewBag.Title = "SportEvent";
 }
 @model Fitbourhood.Models.SportEventModel
-@using (Html.BeginForm("SportEvent", "SportEvent", FormMethod.Post))
-{
-    <div class="container">
+<div class="container">
+    @using (Html.BeginForm("SportEvent", "SportEvent", FormMethod.Post, new { style="float: left;"}))
+    {
         <div style="background: chartreuse; width: 260px; height: 500px; display: table-cell">
             <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
                 @Html.DropDownListFor(m => m.DDiscipline, ViewBag.EnumDDisciplineList as SelectList, new { @class = "form-control" })
@@ -22,19 +22,74 @@
                 <span class="input-group-addon icon-span"><i class="fas fa-clock"></i></span>
             </div>
             <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
-                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Opis...", })
+                @Html.TextBoxFor(m => m.MaxCapacity, new { @class = "form-control", placeholder = "Liczba uczestników...", @type = "number", @min = "1", @max = "50" })
+                @Html.HiddenFor(m => m.MaxCapacity)
+            </div>
+            <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Opis..." })
                 @Html.HiddenFor(m => m.Description)
             </div>
+            @Html.HiddenFor(m => m.Address)
+            @Html.HiddenFor(m => m.CoordinateLatitude)
+            @Html.HiddenFor(m => m.CoordinateLongitude)
+            @Html.HiddenFor(m => m.CreatorID)
         </div>
-        <div style="background: crimson; width: auto; height: 500px; display: table-cell">
-            <div id="map" style="width: 400px; height: 400px"></div>
-        </div>
+    }
+    <div style="background: crimson; width: auto; height: 500px;">
+        <div id="map" style="width: 400px; height: 400px; float: right;"></div>
     </div>
-}
+</div>
+
 <script>
     var marker;
+    var map;
 
-    $(document).ready(function() {
+    function initMap() {
+        var poland = { lat: 52.016, lng: 19.370 };
+        map = new google.maps.Map(
+            document.getElementById('map'),
+            { zoom: 5, center: poland });
+
+        map.addListener('click', function (e) {
+            placeMarker(e.latLng, map);
+            $.ajax({
+                method: "GET",
+                url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyDnIft05bOeuRo4GtcH8Xcg1_xgywxkkKw"
+            })
+                .done(function (data) {
+                    console.log(data.results[0].address_components[1].short_name + " " + data.results[0].address_components[0].short_name + ", " + data.results[0].address_components[3].short_name);
+                });
+        });
+    }
+
+
+    function placeMarker(position, map) {
+        if (marker) {
+            marker.setPosition(position);
+        } else {
+            marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+        }
+        map.panTo(position);
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                var latLng = { lat, lng };
+                console.log(latLng);
+                placeMarker(latLng, map);
+                map.setZoom(15);
+            });
+        } else {
+        }
+    }
+
+    $(document).ready(function () {
         $('.clockpicker').clockpicker({
             donetext: 'Zatwierdź',
             'default': 'now'
@@ -48,42 +103,10 @@
             autoclose: true,
             todayHighlight: true
         });
+
+        getLocation();
     });
-
-    // Initialize and add the map
-    function initMap() {
-        // The location of Uluru
-        var uluru = { lat: -25.344, lng: 131.036 };
-        // The map, centered at Uluru
-        var map = new google.maps.Map(
-            document.getElementById('map'),
-            { zoom: 4, center: uluru });
-        map.addListener('click', function(e) {
-            placeMarker(e.latLng, map);
-        });
-        var geocoder = new google.maps.Geocoder();
-
-        geocoder.geocode({ 'address': 'Polska' }, function (results, status) {
-            console.log(status);
-            if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-            }
-        });
-    }
-
-
-    function placeMarker(position, map) {
-        if ( marker ) {
-            marker.setPosition(position);
-        } else {
-            marker = new google.maps.Marker({
-                position: position,
-                map: map
-            });
-        }
-        map.panTo(position);
-    }
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh1VFr5HUsI0JLhxpjF4OaMXWvLU5P9zM&callback=initMap" type="text/javascript"></script>
-<script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDnIft05bOeuRo4GtcH8Xcg1_xgywxkkKw" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=true" type="text/javascript"></script>

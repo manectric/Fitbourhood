@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Fitbourhood.Dictionaries;
@@ -13,8 +14,11 @@ namespace Fitbourhood.Models
         public DDiscipline DDiscipline { get; set; }
         public string Date { get; set; }
         public string Time { get; set; }
+        [RegularExpression("([0-9]*)", ErrorMessage = "Count must be a natural number")]
         public int MaxCapacity { get; set; }
-        public string Location { get; set; }
+        public string CoordinateLatitude { get; set; }
+        public string CoordinateLongitude { get; set; }
+        public string Address { get; set; }
         public string Description { get; set; }
         public bool HasEnded { get; set; }
         public bool IsCreateMode { get; set; }
