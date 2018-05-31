@@ -4,40 +4,48 @@
 }
 @model Fitbourhood.Models.SportEventModel
 <div class="container">
-    @using (Html.BeginForm("SportEvent", "SportEvent", FormMethod.Post, new { style="float: left;"}))
+    @using (Html.BeginForm("SportEvent", "SportEvent", FormMethod.Post, new { style = "width: auto;" }))
     {
-        <div style="background: chartreuse; width: 260px; height: 500px; display: table-cell">
-            <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
-                @Html.DropDownListFor(m => m.DDiscipline, ViewBag.EnumDDisciplineList as SelectList, new { @class = "form-control" })
-                @Html.HiddenFor(m => m.DDiscipline)
-            </div>
-            <div class="input-group date ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
-                @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = "Wybierz dzień..." })
-                @Html.HiddenFor(m => m.Date)
-                <span class="input-group-addon icon-span"><i class="fas fa-calendar"></i></span>
-            </div>
-            <div class="input-group clockpicker ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
-                @Html.TextBoxFor(m => m.Time, new { @class = "form-control", placeholder = "Wybierz godzinę..." })
-                @Html.HiddenFor(m => m.Time)
-                <span class="input-group-addon icon-span"><i class="fas fa-clock"></i></span>
-            </div>
-            <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
-                @Html.TextBoxFor(m => m.MaxCapacity, new { @class = "form-control", placeholder = "Liczba uczestników...", @type = "number", @min = "1", @max = "50" })
-                @Html.HiddenFor(m => m.MaxCapacity)
-            </div>
-            <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
-                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Opis..." })
-                @Html.HiddenFor(m => m.Description)
-            </div>
-            @Html.HiddenFor(m => m.Address)
-            @Html.HiddenFor(m => m.CoordinateLatitude)
-            @Html.HiddenFor(m => m.CoordinateLongitude)
-            @Html.HiddenFor(m => m.CreatorID)
+        <div style=" width: 100%; height: 500px;">
+
+            @if (Model.IsCreateMode)
+            {
+                <div id="map" style="width: 400px; height: 400px; float: right;"></div>
+                <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                    @Html.DropDownListFor(m => m.DDiscipline, ViewBag.EnumDDisciplineList as SelectList, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.DDiscipline)
+                </div>
+                <div class="input-group date ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                    @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = "Wybierz dzień..." })
+                    @Html.HiddenFor(m => m.Date)
+                    <span class="input-group-addon icon-span"><i class="fas fa-calendar"></i></span>
+                </div>
+                <div class="input-group clockpicker ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                    @Html.TextBoxFor(m => m.Time, new { @class = "form-control", placeholder = "Wybierz godzinę..." })
+                    @Html.HiddenFor(m => m.Time)
+                    <span class="input-group-addon icon-span"><i class="fas fa-clock"></i></span>
+                </div>
+                <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                    @Html.TextBoxFor(m => m.MaxCapacity, new { @class = "form-control", placeholder = "Liczba uczestników...", @type = "number", @min = "1", @max = "50" })
+                    @Html.HiddenFor(m => m.MaxCapacity)
+                </div>
+                <div class="input-group ml-2 mt-2 mr-2 mb-2" style="width: 250px;">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Opis..." })
+                    @Html.HiddenFor(m => m.Description)
+                </div>
+                @Html.HiddenFor(m => m.Address)
+                @Html.HiddenFor(m => m.CoordinateLatitude)
+                @Html.HiddenFor(m => m.CoordinateLongitude)
+                @Html.HiddenFor(m => m.CreatorID)
+                <input type="submit" class="btn btn-success ml-2 mt-2 mr-2 mb-2" style="float: left; width: 120px;" value="Utwórz" />
+                @Html.ActionLink("Anuluj", "Index", "SportEvent", new { @class = "btn btn-warning ml-2 mt-2 mr-2 mb-2", style = "float: left; width: 120px;" })
+            }
+            else
+            {
+
+            }
         </div>
     }
-    <div style="background: crimson; width: auto; height: 500px;">
-        <div id="map" style="width: 400px; height: 400px; float: right;"></div>
-    </div>
 </div>
 
 <script>

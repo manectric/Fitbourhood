@@ -17,7 +17,7 @@ namespace Fitbourhood.Controllers
         {
             SportEventListViewModel viewModel = new SportEventListViewModel();
             viewModel.SportEventList = SportEventRepository.GetAllSportEvents();
-            SetEnumDDisciplineSelectList();
+            SetEnumDDisciplineSelectList(true);
 
             return View(viewModel);
         }
@@ -36,15 +36,16 @@ namespace Fitbourhood.Controllers
             paramDictionary.Add("HasEnded", EnumHelpers.GetDescriptionOfEnum(ComparisionEnum.Equal) + " 0");
 
             viewModel.SportEventList = SportEventRepository.GetSportEventsFiltered(paramDictionary);
-            SetEnumDDisciplineSelectList();
+            SetEnumDDisciplineSelectList(true);
             return View("Index", viewModel);
         }
 
         [HttpGet]
         public ActionResult SportEvent()
         {
-            SetEnumDDisciplineSelectList();
-            return View("SportEvent");
+            SportEventModel model = new SportEventModel();
+            SetEnumDDisciplineSelectList(false);
+            return View("SportEvent", model);
         }
 
         [HttpPost]
@@ -53,10 +54,14 @@ namespace Fitbourhood.Controllers
             return View("SportEvent");
         }
 
-        private void SetEnumDDisciplineSelectList()
+        private void SetEnumDDisciplineSelectList(bool isSearchList)
         {
             List<SelectListItem> newList = new List<SelectListItem>();
-            SelectListItem selListItem = new SelectListItem() { Value = "0", Text = "Wybierz dyscyplinę..." };
+            if (isSearchList)
+            {
+                SelectListItem selListItem = new SelectListItem() { Value = "0", Text = "Wybierz dyscyplinę..." };
+                newList.Add(selListItem);
+            }
 
             var enumDDiscipline = from DDiscipline e in Enum.GetValues(typeof(DDiscipline))
                                   select new SelectListItem()
@@ -65,7 +70,6 @@ namespace Fitbourhood.Controllers
                                       Text = EnumHelpers.GetDescriptionOfEnum(e)
                                   };
 
-            newList.Add(selListItem);
             newList.AddRange(enumDDiscipline);
 
             ViewBag.EnumDDisciplineList = new SelectList(newList, "Value", "Text", "0");
