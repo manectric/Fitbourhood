@@ -26,6 +26,17 @@
         </div>
     }
 </div>
+@if (ViewBag.SuccessMessages != null)
+{
+    <div class="alert alert-success"><strong>@ViewBag.SuccessMessages</strong></div>
+}
+@if (ViewBag.ErrorMessages != null)
+{
+    foreach (var message in ViewBag.ErrorMessages)
+    {
+        <div class="alert alert-danger"><strong>@message</strong></div>
+    }
+}
 @if (Model != null)
 {
     if (Model.SportEventList.Any())
@@ -58,9 +69,9 @@
                 <img src="~" class="sport-event-img" />
             }
             <div class="sport-event-info-col1">
-                <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">@sportEvent.Location</span>
+                <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">@sportEvent.Address</span>
                 <br />
-                <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date.ToString("yyyy-mm-dd")</span>
+                <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date</span>
                 <br />
                 <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">@sportEvent.Time</span>
             </div>
@@ -89,4 +100,14 @@
             todayHighlight: true
         });
     });
+
+    $('.sport-event-container').on('click',
+        function() {
+            console.log($(this).attr('sport-event-id'));
+            $.ajax({
+                url: @Html.ActionLink("PreviewSportEvent", "PreviewSportEvent", "SportEvent"),
+                type: 'GET',
+                data: {id: $(this).attr('sport-event-id')}
+            });
+        });
 </script>

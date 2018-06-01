@@ -74,6 +74,7 @@ textarea {
     width: 600px;
     height: 150px;
     display: table;
+    cursor: pointer;
 }
 
 .sport-event-container:hover {

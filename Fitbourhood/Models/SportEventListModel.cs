@@ -9,11 +9,12 @@ namespace Fitbourhood.Models
     {
         public int ID { get; set; }
         public int DDisciplineID { get; set; }
-        public string Name { get; set; }
-        public DateTime Date { get; set; }
-        public TimeSpan Time { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
         public int MaxCapacity { get; set; }
-        public string Location { get; set; }
+        public string Address { get; set; }
+        public string CoordinateLatitude { get; set; }
+        public string CoordinateLongitude { get; set; }
         public bool HasEnded { get; set; }
     }
 }

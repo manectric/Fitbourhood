@@ -11,10 +11,14 @@ namespace Fitbourhood.Models
     {
         public int ID { get; set; }
         public int CreatorID { get; set; }
+        [Required(ErrorMessage = "Wybór dyscypliny jest wymagany")]
         public DDiscipline DDiscipline { get; set; }
+        [Required(ErrorMessage = "Data wydarzenia jest wymagana")]
         public string Date { get; set; }
+        [Required(ErrorMessage = "Godzina wydarzenia jest wymagana")]
         public string Time { get; set; }
-        [RegularExpression("([0-9]*)", ErrorMessage = "Count must be a natural number")]
+        [Required(ErrorMessage = "Maksymalna liczba uczesnitków jest wymagana")]
+        [RegularExpression("([0-9]*)")]
         public int? MaxCapacity { get; set; }
         public string CoordinateLatitude { get; set; }
         public string CoordinateLongitude { get; set; }

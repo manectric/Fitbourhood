@@ -16,6 +16,7 @@ namespace Fitbourhood.Repositories
         public static List<SportEventListModel> GetAllSportEvents()
         {
             List<SportEventListModel> resultList = new List<SportEventListModel>();
+            ErrorList = new List<string>();
             string sqlSelectAllSportEvents = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] WHERE HasEnded = 0";
 
             using (var connection = new SqlConnection(ConnectionString))
@@ -29,6 +30,7 @@ namespace Fitbourhood.Repositories
         public static List<SportEventListModel> GetSportEventsFiltered(SortedList<string, string> paramDictionary)
         {
             List<SportEventListModel> resultList = new List<SportEventListModel>();
+            ErrorList = new List<string>();
             string sqlSelectSportEventsFiltered = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents]";
 
             if (paramDictionary.Any(x => x.Value != null))
@@ -54,6 +56,55 @@ namespace Fitbourhood.Repositories
             }
 
             return resultList;
+        }
+
+        public static SportEventModel GetSportEventDetails(int id)
+        {
+            SportEventModel result;
+
+            string sqlGetSportEvent = "SELECT * FROM [FitbourhoodDB].[dbo].[SportEvents] WHERE ID = @ID";
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                result = connection.QueryFirstOrDefault<SportEventModel>(sqlGetSportEvent, new { ID = id });
+            }
+
+            return result;
+        }
+
+        public static bool AddSportEvent(SportEventModel sportEvent)
+        {
+            ErrorList = new List<string>();
+            bool result = false;
+
+            if (sportEvent != null)
+            {
+                string sqlAddSportEvent = "INSERT INTO [FitbourhoodDB].[dbo].[SportEvents] (CreatorID, DDisciplineID, Date, Time, MaxCapacity, Address, CoordinateLatitude, CoordinateLongitude, Description, HasEnded) Values (@CreatorID, @DDisciplineID, @Date, @Time, @MaxCapacity, @Address, @CoordinateLatitude, @CoordinateLongitude, @Description, @HasEnded);";
+
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    var affectedRows = connection.Execute(sqlAddSportEvent, new
+                    {
+                        CreatorID = sportEvent.CreatorID,
+                        DDisciplineID = sportEvent.DDiscipline,
+                        Date = sportEvent.Date,
+                        Time = sportEvent.Time,
+                        MaxCapacity = sportEvent.MaxCapacity,
+                        Address = sportEvent.Address,
+                        CoordinateLatitude = sportEvent.CoordinateLatitude,
+                        CoordinateLongitude = sportEvent.CoordinateLongitude,
+                        Description = sportEvent.Description,
+                        HasEnded = sportEvent.HasEnded 
+                    });
+                    if (affectedRows > 0)
+                        result = true;
+                    else
+                        ErrorList.Add("Wystąpił błąd podczas tworzenia nowego wydarzenia. Spróbuj ponownie.");
+                }
+            }
+
+            return result;
         }
     }
 }

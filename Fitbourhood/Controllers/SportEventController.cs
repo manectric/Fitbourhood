@@ -48,10 +48,31 @@ namespace Fitbourhood.Controllers
             return View("SportEvent", model);
         }
 
-        [HttpPost]
-        public ActionResult SportEvent(SportEventModel model)
+        [HttpGet]
+        public ActionResult PreviewSportEvent(int id)
         {
-            return View("SportEvent");
+            SportEventModel model = SportEventRepository.GetSportEventDetails(id);
+            SetEnumDDisciplineSelectList(false);
+            return View("SportEvent", model);
+        }
+
+        [HttpPost]
+        public ActionResult AddSportEvent(SportEventModel model)
+        {
+            //dodać jakiś succes komunikat, że wydarzenie zostało poprawnie utworzone (lub nie, jeśli jakiś error)
+            if (SportEventRepository.AddSportEvent(model))
+            {
+                ViewBag.SuccessMessages = "Wydarzenie zostało utworzone pomyślnie";
+            }
+            else
+            {
+                ViewBag.ErrorMessages = SportEventRepository.ErrorList;
+            }
+            SportEventListViewModel viewModel = new SportEventListViewModel();
+            viewModel.SportEventList = SportEventRepository.GetAllSportEvents();
+            SetEnumDDisciplineSelectList(true);
+
+            return View("Index", viewModel);
         }
 
         private void SetEnumDDisciplineSelectList(bool isSearchList)
