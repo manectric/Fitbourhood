@@ -43,39 +43,43 @@
     {
         foreach (var sportEvent in Model.SportEventList)
         {
-        <div class="sport-event-container" sport-event-id="@sportEvent.ID">
-            @if (sportEvent.DDisciplineID == (int)DDiscipline.Basketball)
-            {
-                <img src="~/Content/Images/basketball-128.png" class="sport-event-img" />
-            }
-            else if (sportEvent.DDisciplineID == (int)DDiscipline.Cycling)
-            {
-                <img src="~/Content/Images/man-cycling-128.png" class="sport-event-img" />
-            }
-            else if (sportEvent.DDisciplineID == (int)DDiscipline.Running)
-            {
-                <img src="~/Content/Images/running-128.png" class="sport-event-img" />
-            }
-            else if (sportEvent.DDisciplineID == (int)DDiscipline.Soccer)
-            {
-                <img src="~/Content/Images/soccer-ball-128.png" class="sport-event-img" />
-            }
-            else if (sportEvent.DDisciplineID == (int)DDiscipline.Volleyball)
-            {
-                <img src="~/Content/Images/volleyball-128.png" class="sport-event-img" />
-            }
-            else
-            {
-                <img src="~" class="sport-event-img" />
-            }
-            <div class="sport-event-info-col1">
-                <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">@sportEvent.Address</span>
-                <br />
-                <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date</span>
-                <br />
-                <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">@sportEvent.Time</span>
+            <a href="@Url.Action("PreviewSportEvent", "SportEvent", new { id = @sportEvent.ID })" style="text-decoration: none;">
+
+            <div class="sport-event-container" sport-event-id="@sportEvent.ID">
+                @if (sportEvent.DDisciplineID == (int)DDiscipline.Basketball)
+                {
+                    <img src="~/Content/Images/basketball-128.png" class="sport-event-img" />
+                }
+                else if (sportEvent.DDisciplineID == (int)DDiscipline.Cycling)
+                {
+                    <img src="~/Content/Images/man-cycling-128.png" class="sport-event-img" />
+                }
+                else if (sportEvent.DDisciplineID == (int)DDiscipline.Running)
+                {
+                    <img src="~/Content/Images/running-128.png" class="sport-event-img" />
+                }
+                else if (sportEvent.DDisciplineID == (int)DDiscipline.Soccer)
+                {
+                    <img src="~/Content/Images/soccer-ball-128.png" class="sport-event-img" />
+                }
+                else if (sportEvent.DDisciplineID == (int)DDiscipline.Volleyball)
+                {
+                    <img src="~/Content/Images/volleyball-128.png" class="sport-event-img" />
+                }
+                else
+                {
+                    <img src="~" class="sport-event-img" />
+                }
+                <div class="sport-event-info-col1">
+                    <span class="sport-event-info-label">Lokalizacja: </span> <span class="sport-event-info">@sportEvent.Address</span>
+                    <br />
+                    <span class="sport-event-info-label">Data: </span> <span class="sport-event-info">@sportEvent.Date</span>
+                    <br />
+                    <span class="sport-event-info-label">Godzina: </span> <span class="sport-event-info">@sportEvent.Time</span>
+                </div>
             </div>
-        </div>
+            </a>
+
         }
 
     }
@@ -101,7 +105,7 @@
         });
     });
 
-    $('.sport-event-container').on('click',
+    @*$('.sport-event-container').on('click',
         function() {
             console.log($(this).attr('sport-event-id'));
             $.ajax({
@@ -109,5 +113,5 @@
                 type: 'GET',
                 data: {id: $(this).attr('sport-event-id')}
             });
-        });
+        });*@
 </script>
