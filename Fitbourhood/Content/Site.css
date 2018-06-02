@@ -109,6 +109,10 @@ textarea {
     justify-content: center;
 }
 
+i.navigate {
+    cursor: pointer;
+}
+
 .button-container {
     display: table-cell;
 }

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Fitbourhood.Models
 {
-    public class UserModel
+    public class UserRegisterModel
     {
         [Required(ErrorMessage = "Imię jest wymagane")]
         public string Name { get; set; }

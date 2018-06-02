@@ -4,12 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Fitbourhood.Dictionaries;
+using Fitbourhood.Filter;
 using Fitbourhood.Helpers;
 using Fitbourhood.Models;
 using Fitbourhood.Repositories;
 
 namespace Fitbourhood.Controllers
 {
+    [AuthorizationFilter]
     public class SportEventController : Controller
     {
         // GET: SportEvent
@@ -49,10 +51,14 @@ namespace Fitbourhood.Controllers
         }
 
         [HttpGet]
-        public ActionResult PreviewSportEvent(int id)
+        public ActionResult PreviewSportEvent(int sportEventId)
         {
-            SportEventModel model = SportEventRepository.GetSportEventDetails(id);
+            SportEventModel model = SportEventRepository.GetSportEventDetails(sportEventId);
+            model.IsCreateMode = false;
             SetEnumDDisciplineSelectList(false);
+            TempData["IsUserParticipating"] =
+                SportEventRepository.IsUserParticipatingInSportEvent(UserContextHelper.GetUserContextModel().ID,
+                    sportEventId);
             return View("SportEvent", model);
         }
 
@@ -73,6 +79,20 @@ namespace Fitbourhood.Controllers
             SetEnumDDisciplineSelectList(true);
 
             return View("Index", viewModel);
+        }
+
+        public ActionResult JoinSportEvent(int userId, int sportEventId, bool join)
+        {
+            bool result = SportEventRepository.ChangeUserParticipationStatusInSportEvent(userId, sportEventId, join);
+            if (result)
+            {
+                if (join)
+                    return Content("Udało się dodać usera do wydarzenia");
+                else
+                    return Content("Udało się usunąć usera z wydarzenia");
+            }
+            return Content("Fail");
+
         }
 
         private void SetEnumDDisciplineSelectList(bool isSearchList)

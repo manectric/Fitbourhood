@@ -13,14 +13,23 @@
 </head>
 <body>
 <div class="container body-content">
-    <div id="navigation-bar"><i class="fas fa-home" style="float: left;"></i><i class="fas fa-power-off" style="float: right;"></i><i class="fas fa-user" style="float: right;"></i><i class="fas fa-bell" style="float: right;"></i></div>
+    <div id="navigation-bar"><i class="fas fa-home navigate" style="float: left;" navigate-to="@Url.Action("Index", "SportEvent")"></i><i class="fas fa-power-off navigate" style="float: right;" navigate-to="@Url.Action("Logout", "Home")"></i><i class="fas fa-user navigate" style="float: right;"></i><i class="fas fa-bell" style="float: right;"></i></div>
     <img src="~/Content/Images/logo.png" id="main-logo"/>
     <div id="border-div"></div>
     @RenderBody()
 </div>
 
     
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $('i.navigate').click(function () {
+        var url = $(this).attr('navigate-to');
+
+        if (url !== undefined)
+            window.location.href = url;
+    });
+</script>

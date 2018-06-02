@@ -14,7 +14,7 @@ namespace Fitbourhood.Repositories
     {
         public static string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB";
         public static List<string> ErrorList = new List<string>();
-        public static bool AddUser(UserModel user)
+        public static bool AddUser(UserRegisterModel user)
         {
             ErrorList = new List<string>();
             bool result = false;
@@ -62,27 +62,27 @@ namespace Fitbourhood.Repositories
             return BitConverter.ToString(hashedBytes);
         }
 
-        public static bool ValidatePasswordIsCorrect(string email, string password)
+        public static UserContextModel ValidatePasswordIsCorrect(string email, string password)
         {
             ErrorList = new List<string>();
-            bool result = false;
+            UserContextModel result = null;
 
             string sqlSelectUserByEmail = "SELECT * FROM [FitbourhoodDB].[dbo].[Users] WHERE Email = @Email";
             int affectedRows = 0;
             using (var connection = new SqlConnection(ConnectionString))
             {
-                var selectedRows = connection.QueryFirstOrDefault<UserModel>(sqlSelectUserByEmail, new { email });
+                var selectedRows = connection.QueryFirstOrDefault<UserRegisterModel>(sqlSelectUserByEmail, new { email });
                 if (selectedRows != null)
                 {
                     string hashedPassword = GenerateHash(password);
                     string hashedPasswordFromDB = selectedRows.Password;
                     if (hashedPassword == hashedPasswordFromDB)
                     {
-                        result = true;
+                        result = connection.QueryFirstOrDefault<UserContextModel>("SELECT * FROM [FitbourhoodDB].[dbo].[Users] WHERE Email = @Email", new { email });
                     }
                 }
             }
-            if(!result)
+            if(result == null)
                 ErrorList.Add("Niepoprawny adres E-mail lub hasło");
             
             return result;

@@ -106,5 +106,51 @@ namespace Fitbourhood.Repositories
 
             return result;
         }
+
+        public static bool ChangeUserParticipationStatusInSportEvent(int userId, int sportEventId, bool join)
+        {
+            bool result = false;
+
+            if (join && !IsUserParticipatingInSportEvent(userId, sportEventId))
+                result = AddUserToSportEvent(userId, sportEventId);
+            else if (!join && IsUserParticipatingInSportEvent(userId, sportEventId))
+                result = RemoveUserFromSportEvent(userId, sportEventId);
+
+            return result;
+        }
+
+        public static bool IsUserParticipatingInSportEvent(int userId, int sportEventId)
+        {
+            bool result = false;
+
+            string sqlGetSportEvent = "SELECT * FROM [FitbourhoodDB].[dbo].[Users_SportEvents] WHERE [UserID] = @UserID AND [SportEventID] = @SportEventID";
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var queryResult = connection.QueryFirstOrDefault(sqlGetSportEvent, new { UserID = userId, SportEventID = sportEventId });
+                if (queryResult != null)
+                    result = true;
+            }
+
+            return result;
+        }
+
+        public static bool AddUserToSportEvent(int userId, int sportEventId)
+        {
+            bool result = false;
+
+
+
+            return result;
+        }
+
+        public static bool RemoveUserFromSportEvent(int userId, int sportEventId)
+        {
+            bool result = false;
+
+
+
+            return result;
+        }
     }
 }
