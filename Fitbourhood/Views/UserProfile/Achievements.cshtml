@@ -1,0 +1,24 @@
+﻿@model List<Fitbourhood.Repositories.UserAchievementModel>
+
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        foreach (var userAchievementModel in Model)
+        {
+            <div style="background: white; width: 100%; height: 75px;">
+                @if (userAchievementModel.IsAchieved)
+                {
+                    <i class="fas fa-star" style="color: gold"></i>
+                }
+                else
+                {
+                    <i class="fas fa-star"></i>
+                }
+                <span style="color: #42A5F5; font-weight: bold">@userAchievementModel.Achievement </span>
+                <span style="color: #9b9b9b;">@userAchievementModel.Description</span>
+            </div>
+
+        }
+    }
+}

@@ -79,12 +79,13 @@ namespace Fitbourhood.Repositories
 
             if (sportEvent != null)
             {
-                string sqlAddSportEvent = "INSERT INTO [FitbourhoodDB].[dbo].[SportEvents] (CreatorID, DDisciplineID, Date, Time, MaxCapacity, Address, CoordinateLatitude, CoordinateLongitude, Description, HasEnded) Values (@CreatorID, @DDisciplineID, @Date, @Time, @MaxCapacity, @Address, @CoordinateLatitude, @CoordinateLongitude, @Description, @HasEnded);";
+                string sqlAddSportEvent = "INSERT INTO [FitbourhoodDB].[dbo].[SportEvents] (CreatorID, DDisciplineID, Date, Time, MaxCapacity, Address, CoordinateLatitude, CoordinateLongitude, Description, HasEnded) Values (@CreatorID, @DDisciplineID, @Date, @Time, @MaxCapacity, @Address, @CoordinateLatitude, @CoordinateLongitude, @Description, @HasEnded); SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 using (var connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    var affectedRows = connection.Execute(sqlAddSportEvent, new
+
+                    var insertedSportEventID = connection.Query<int>(sqlAddSportEvent, new
                     {
                         CreatorID = sportEvent.CreatorID,
                         DDisciplineID = sportEvent.DDiscipline,
@@ -95,10 +96,12 @@ namespace Fitbourhood.Repositories
                         CoordinateLatitude = sportEvent.CoordinateLatitude,
                         CoordinateLongitude = sportEvent.CoordinateLongitude,
                         Description = sportEvent.Description,
-                        HasEnded = sportEvent.HasEnded 
-                    });
-                    if (affectedRows > 0)
-                        result = true;
+                        HasEnded = sportEvent.HasEnded
+                    }).Single();
+                    if (insertedSportEventID > 0)
+                    {
+                        result = AddUserToSportEvent(sportEvent.CreatorID, insertedSportEventID);
+                    }
                     else
                         ErrorList.Add("Wystąpił błąd podczas tworzenia nowego wydarzenia. Spróbuj ponownie.");
                 }
@@ -139,7 +142,33 @@ namespace Fitbourhood.Repositories
         {
             bool result = false;
 
+            string sqlInsertUserSportEvent = "INSERT INTO [FitbourhoodDB].[dbo].[Users_SportEvents] (UserID, SportEventID, IsNotificationSended) Values (@UserID, @SportEventID, @IsNotificationSended);";
+            string sqlSelectCurrentNumberOfUsersInEvent = "SELECT Count(u_se.ID) as UserCount, se.MaxCapacity FROM [FitbourhoodDB].[dbo].[Users_SportEvents] u_se LEFT JOIN [FitbourhoodDB].[dbo].[SportEvents] se ON u_se.SportEventID = se.ID WHERE SportEventID = @SportEventID GROUP BY se.MaxCapacity";
 
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                var canAddUser = true;
+                var selectResult = connection.QueryFirstOrDefault(sqlSelectCurrentNumberOfUsersInEvent,
+                    new {SportEventID = sportEventId});
+
+                if (selectResult != null)
+                {
+                    if (selectResult.MaxCapacity - selectResult.UserCount == 0)
+                    {
+                        canAddUser = false;
+                        ErrorList.Add("Brak miejsc.");
+                    }
+                }
+
+                if (canAddUser)
+                {
+                    var affectedRows = connection.Execute(sqlInsertUserSportEvent, new { UserID = userId, SportEventID = sportEventId, IsNotificationSended = false });
+                    if (affectedRows > 0)
+                        result = true;
+                }
+                
+            }
 
             return result;
         }
@@ -148,7 +177,15 @@ namespace Fitbourhood.Repositories
         {
             bool result = false;
 
+            string sql = "DELETE FROM [FitbourhoodDB].[dbo].[Users_SportEvents] WHERE UserID = @UserID AND SportEventID = @SportEventID";
 
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                var affectedRows = connection.Execute(sql, new { UserID = userId, SportEventID = sportEventId });
+                if (affectedRows > 0)
+                    result = true;
+            }
 
             return result;
         }

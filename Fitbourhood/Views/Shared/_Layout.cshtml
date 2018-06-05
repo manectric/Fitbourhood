@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container body-content">
-    <div id="navigation-bar"><i class="fas fa-home navigate" style="float: left;" navigate-to="@Url.Action("Index", "SportEvent")"></i><i class="fas fa-power-off navigate" style="float: right;" navigate-to="@Url.Action("Logout", "Home")"></i><i class="fas fa-user navigate" style="float: right;"></i><i class="fas fa-bell" style="float: right;"></i></div>
+    <div id="navigation-bar"><i class="fas fa-home navigate" style="float: left;" navigate-to="@Url.Action("Index", "SportEvent")"></i><i class="fas fa-power-off navigate" style="float: right;" navigate-to="@Url.Action("Logout", "Home")"></i><i class="fas fa-user navigate" style="float: right;"  navigate-to="@Url.Action("Index", "UserProfile")"></i><i class="fas fa-star navigate" style="float: right;"  navigate-to="@Url.Action("Achievements", "UserProfile")"></i><i class="fas fa-bell" style="float: right;"></i></div>
     <img src="~/Content/Images/logo.png" id="main-logo"/>
     <div id="border-div"></div>
     @RenderBody()

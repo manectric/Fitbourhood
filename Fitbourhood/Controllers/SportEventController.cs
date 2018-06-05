@@ -81,17 +81,22 @@ namespace Fitbourhood.Controllers
             return View("Index", viewModel);
         }
 
-        public ActionResult JoinSportEvent(int userId, int sportEventId, bool join)
+        [HttpPost]
+        public JsonResult JoinSportEvent(int userId, int sportEventId, bool join)
         {
             bool result = SportEventRepository.ChangeUserParticipationStatusInSportEvent(userId, sportEventId, join);
             if (result)
             {
                 if (join)
-                    return Content("Udało się dodać usera do wydarzenia");
+                    return Json(new {Status = "Added", Result = "Zapisałeś się do wydarzenia."});
                 else
-                    return Content("Udało się usunąć usera z wydarzenia");
+                    return Json(new { Status = "Removed", Result = "Wypisałeś się z wydarzenia." });
             }
-            return Content("Fail");
+            else if (result == false && SportEventRepository.ErrorList.Count > 0)
+            {
+                return Json(new {Status = "Error", Result = SportEventRepository.ErrorList.First()});
+            }
+            return Json(new { Status = "Error", Result = "Wystąpił błąd." });
 
         }
 

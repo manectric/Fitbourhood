@@ -87,5 +87,29 @@ namespace Fitbourhood.Repositories
             
             return result;
         }
+
+        public static List<UserAchievementModel> GetUserAchievements(int userId)
+        {
+            ErrorList = new List<string>();
+            string sqlSelectUserAchievements =
+            " SELECT da.DDiscipline, da.Achievement, da.Description, da.NumberOfSportEventsNeeded, ISNULL(x.Count, 0) as NumberOfSportEventsParticipated, (CASE WHEN x.Count >= da.NumberOfSportEventsNeeded THEN 1 ELSE 0 END) AS IsAchieved "
+            + " FROM [FitbourhoodDB].[dbo].[DAchievement] da "
+            + " LEFT JOIN "
+            + " ( "
+                + " SELECT COUNT(u_se1.ID) AS Count, UserID, se1.DDisciplineID "
+                + " FROM [FitbourhoodDB].[dbo].[Users_SportEvents] u_se1 "
+                + " LEFT JOIN [FitbourhoodDB].[dbo].[SportEvents] se1 ON se1.ID = u_se1.SportEventID "
+                + " WHERE UserID = @UserID AND IsApprovedByCreator = 1 GROUP BY UserID, se1.DDisciplineID "
+            + " ) "
+            + " AS x ON x.DDisciplineID = da.DDiscipline ";
+            List<UserAchievementModel> result = new List<UserAchievementModel>();
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                result = connection.Query<UserAchievementModel>(sqlSelectUserAchievements, new { UserID = userId,}).ToList();
+            }
+
+            return result;
+        }
     }
 }
