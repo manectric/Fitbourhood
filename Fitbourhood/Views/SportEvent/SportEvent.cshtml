@@ -51,6 +51,15 @@
         else
         {
             <div id="map" style="width: 400px; height: 400px; float: right;"></div>
+            if (Model.ContactList.Any())
+            {
+                <div id="contactListContainer" style="width: 200px;">
+                    @foreach (var contact in Model.ContactList)
+                    {
+                        <span style="font-weight: bold; color: #42a5f5; font-size: 14px;">@contact.Name: </span> <span style="color: #9b9b9b; font-size: 14px;">@contact.PhoneNumber</span><br/>
+                    }
+                </div>
+            }
             <div class="input-group mt-2 mb-2" style="width: 250px;">
                 @Html.DropDownListFor(m => m.DDiscipline, ViewBag.EnumDDisciplineList as SelectList, new { @class = "form-control", @disabled = "disabled" })
             </div>
