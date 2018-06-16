@@ -5,12 +5,13 @@ using System.Linq;
 using System.Web;
 using Dapper;
 using Fitbourhood.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Fitbourhood.Repositories
 {
     public static class SportEventRepository
     {
-        public static string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB";
+        public static string ConnectionString = "Data Source=DESKTOP-VDGQKFQ; Initial Catalog=FitbourhoodDB; User id = sa; Password = s0ng0Kussj!00;";
         public static List<string> ErrorList = new List<string>();
 
         public static List<SportEventListModel> GetAllSportEvents()
@@ -67,6 +68,29 @@ namespace Fitbourhood.Repositories
             using (var connection = new SqlConnection(ConnectionString))
             {
                 result = connection.QueryFirstOrDefault<SportEventModel>(sqlGetSportEvent, new { ID = id });
+            }
+
+            return result;
+        }
+
+        public static List<ContactDetails> GetContactDetailsForSportEvent(int sportEventId, int userId)
+        {
+            List<ContactDetails> result = new List<ContactDetails>();
+
+            string sqlGetContactDetails = 
+              " SELECT Name, PhoneNumber "
+            + " FROM[dbo].[Users] u LEFT JOIN[dbo].[SportEvents] se ON se.ID = @SportEventID "
+            + " WHERE se.ID = @SportEventID "
+            + " AND "
+            + " ( "
+            +      " (se.CreatorID = @UserID AND u.ID IN(SELECT UserID FROM[dbo].[Users_SportEvents] WHERE UserID <> @UserID AND SportEventID = @SportEventID)) "
+            + " OR "
+            +      " (se.CreatorID <> @UserID AND u.ID IN(SELECT CreatorID FROM[dbo].[SportEvents] WHERE ID = @SportEventID)) "
+            + " )";
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                result = connection.QueryMultiple(sqlGetContactDetails, new {SportEventID = sportEventId, UserID = userId}).Read<ContactDetails>().ToList();
             }
 
             return result;
@@ -142,7 +166,7 @@ namespace Fitbourhood.Repositories
         {
             bool result = false;
 
-            string sqlInsertUserSportEvent = "INSERT INTO [FitbourhoodDB].[dbo].[Users_SportEvents] (UserID, SportEventID, IsNotificationSended) Values (@UserID, @SportEventID, @IsNotificationSended);";
+            string sqlInsertUserSportEvent = "INSERT INTO [FitbourhoodDB].[dbo].[Users_SportEvents] (UserID, SportEventID, IsNotificationSended, IsNotificationSendedToCreator) Values (@UserID, @SportEventID, @IsNotificationSended, @IsNotificationSendedToCreator);";
             string sqlSelectCurrentNumberOfUsersInEvent = "SELECT Count(u_se.ID) as UserCount, se.MaxCapacity FROM [FitbourhoodDB].[dbo].[Users_SportEvents] u_se LEFT JOIN [FitbourhoodDB].[dbo].[SportEvents] se ON u_se.SportEventID = se.ID WHERE SportEventID = @SportEventID GROUP BY se.MaxCapacity";
 
             using (var connection = new SqlConnection(ConnectionString))
@@ -163,7 +187,7 @@ namespace Fitbourhood.Repositories
 
                 if (canAddUser)
                 {
-                    var affectedRows = connection.Execute(sqlInsertUserSportEvent, new { UserID = userId, SportEventID = sportEventId, IsNotificationSended = false });
+                    var affectedRows = connection.Execute(sqlInsertUserSportEvent, new { UserID = userId, SportEventID = sportEventId, IsNotificationSended = false, IsNotificationSendedToCreator = false });
                     if (affectedRows > 0)
                         result = true;
                 }

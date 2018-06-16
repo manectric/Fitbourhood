@@ -53,11 +53,13 @@ namespace Fitbourhood.Controllers
         [HttpGet]
         public ActionResult PreviewSportEvent(int sportEventId)
         {
+            int userIdFromContext = UserContextHelper.GetUserContextModel().ID;
             SportEventModel model = SportEventRepository.GetSportEventDetails(sportEventId);
+            model.ContactList = SportEventRepository.GetContactDetailsForSportEvent(sportEventId, userIdFromContext);
             model.IsCreateMode = false;
             SetEnumDDisciplineSelectList(false);
             TempData["IsUserParticipating"] =
-                SportEventRepository.IsUserParticipatingInSportEvent(UserContextHelper.GetUserContextModel().ID,
+                SportEventRepository.IsUserParticipatingInSportEvent(userIdFromContext,
                     sportEventId);
             return View("SportEvent", model);
         }
@@ -65,7 +67,6 @@ namespace Fitbourhood.Controllers
         [HttpPost]
         public ActionResult AddSportEvent(SportEventModel model)
         {
-            //dodać jakiś succes komunikat, że wydarzenie zostało poprawnie utworzone (lub nie, jeśli jakiś error)
             if (SportEventRepository.AddSportEvent(model))
             {
                 ViewBag.SuccessMessages = "Wydarzenie zostało utworzone pomyślnie";

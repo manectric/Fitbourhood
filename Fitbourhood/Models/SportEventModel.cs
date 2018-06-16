@@ -26,5 +26,6 @@ namespace Fitbourhood.Models
         public string Description { get; set; }
         public bool HasEnded { get; set; } = false;
         public bool IsCreateMode { get; set; } = true;
+        public List<ContactDetails> ContactList { get; set; }
     }
 }

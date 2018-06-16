@@ -12,7 +12,7 @@ namespace Fitbourhood.Repositories
 {
     public static class UsersRepository
     {
-        public static string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB";
+        public static string ConnectionString = "Data Source=DESKTOP-VDGQKFQ; Initial Catalog=FitbourhoodDB; User id = sa; Password = s0ng0Kussj!00;";
         public static List<string> ErrorList = new List<string>();
         public static bool AddUser(UserRegisterModel user)
         {
