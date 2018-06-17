@@ -111,5 +111,22 @@ namespace Fitbourhood.Repositories
 
             return result;
         }
+
+        public static List<Notification> GetNotificationsForUser(int userId)
+        {
+            ErrorList = new List<string>();
+            string sqlSelectUserAchievements = 
+            " SELECT * FROM [dbo].[Notifications] "
+            + " WHERE IsSended = 1 AND UserID = @UserID ";
+
+            List<Notification> result = new List<Notification>();
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                result = connection.Query<Notification>(sqlSelectUserAchievements, new { UserID = userId, }).ToList();
+            }
+
+            return result;
+        }
     }
 }

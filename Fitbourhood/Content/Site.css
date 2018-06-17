@@ -124,16 +124,53 @@ i.navigate {
     background-color: white;
 }
 
+#notificationsContainer {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 300px;
+    height: 400px;
+    background: #fff;
+    display: none;
+    position: absolute;
+    top: 100px;
+    overflow-y: auto;
+}
+
+.notificationDiv {
+    float: left;
+    height: 100px;
+    width: 280px;
+    background: #fff;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px #9b9b9b solid;
+}
+
+.notificationDiv:hover {
+    background: aliceblue;
+}
+
+.notificationDivDescription {
+    font-weight: bold;
+    color: #42a5f5;
+    font-size: 14px;
+}
+
+.notifyButtons {
+    margin: 0 auto;
+    width: 60px;
+    font-weight: bold;
+}
+
 @media (max-width: 576px) and (min-width: 0px) {
     #main-logo {
     max-width: 410px;
-}
-#navigation-bar {
-    /*height: 40px;*/
-}
-#navigation-bar > i {
-    font-size: 22px;
-}
+    }
+    #navigation-bar {
+        /*height: 40px;*/
+    }
+    #navigation-bar > i {
+        font-size: 22px;
+    }
     .sport-event-container {
         width: 350px;
         height: 110px;
@@ -149,6 +186,9 @@ i.navigate {
     .sport-event-info-label,
     .sport-event-info {
         font-size: 0.7em;
+    }
+    #notificationsContainer {
+        top: 92px;
     }
 }
 
@@ -178,6 +218,9 @@ i.navigate {
     .sport-event-info {
         font-size: 0.8em;
     }
+    #notificationsContainer {
+        top: 94px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -206,6 +249,9 @@ i.navigate {
     .sport-event-info {
         font-size: 0.9em;
     }
+    #notificationsContainer {
+        top: 96px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -224,5 +270,8 @@ i.navigate {
     }
     .sport-event-info-col1 {
         line-height: 2.2;
+    }
+    #notificationsContainer {
+        top: 100px;
     }
 }

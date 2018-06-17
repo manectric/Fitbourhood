@@ -161,6 +161,7 @@
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\UserContextHelper.cs" />
     <Compile Include="Models\ContactDetails.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\SportEventModel.cs" />
     <Compile Include="Models\SportEventListModel.cs" />
     <Compile Include="Models\UserContextModel.cs" />

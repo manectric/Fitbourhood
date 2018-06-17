@@ -23,5 +23,11 @@ namespace Fitbourhood.Controllers
             var achievementList = UsersRepository.GetUserAchievements(UserContextHelper.GetUserContextModel().ID);
             return View("Achievements", achievementList);
         }
+
+        public JsonResult GetNotifications()
+        {
+            var notifications = UsersRepository.GetNotificationsForUser(UserContextHelper.GetUserContextModel().ID);
+            return Json(notifications);
+        }
     }
 }

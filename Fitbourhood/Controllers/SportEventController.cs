@@ -55,7 +55,10 @@ namespace Fitbourhood.Controllers
         {
             int userIdFromContext = UserContextHelper.GetUserContextModel().ID;
             SportEventModel model = SportEventRepository.GetSportEventDetails(sportEventId);
-            model.ContactList = SportEventRepository.GetContactDetailsForSportEvent(sportEventId, userIdFromContext);
+            DateTime sportEventDateTime = DateTime.Parse(model.Date + " " + model.Time);
+            var differenceHours = (sportEventDateTime - DateTime.Now).TotalHours;
+            if(differenceHours < 1)
+                model.ContactList = SportEventRepository.GetContactDetailsForSportEvent(sportEventId, userIdFromContext);
             model.IsCreateMode = false;
             SetEnumDDisciplineSelectList(false);
             TempData["IsUserParticipating"] =

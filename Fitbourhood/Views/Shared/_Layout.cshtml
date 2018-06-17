@@ -13,12 +13,17 @@
 </head>
 <body>
 <div class="container body-content">
-    <div id="navigation-bar"><i class="fas fa-home navigate" style="float: left;" navigate-to="@Url.Action("Index", "SportEvent")"></i><i class="fas fa-power-off navigate" style="float: right;" navigate-to="@Url.Action("Logout", "Home")"></i><i class="fas fa-user navigate" style="float: right;"  navigate-to="@Url.Action("Index", "UserProfile")"></i><i class="fas fa-star navigate" style="float: right;"  navigate-to="@Url.Action("Achievements", "UserProfile")"></i><i class="fas fa-bell" style="float: right;"></i></div>
+    <div id="navigation-bar"><i class="fas fa-home navigate" style="float: left;" navigate-to="@Url.Action("Index", "SportEvent")"></i><i class="fas fa-power-off navigate" style="float: right;" navigate-to="@Url.Action("Logout", "Home")"></i><i class="fas fa-user navigate" style="float: right;"  navigate-to="@Url.Action("Index", "UserProfile")"></i><i class="fas fa-star navigate" style="float: right;"  navigate-to="@Url.Action("Achievements", "UserProfile")"></i><i id="notifications" class="fas fa-bell" style="float: right; cursor: pointer;"></i></div>
     <img src="~/Content/Images/logo.png" id="main-logo"/>
     <div id="border-div"></div>
     @RenderBody()
 </div>
-
+<div id="notificationsContainer">
+    @*@for (int i = 0; i <= 10; i++)
+    {
+        <div style="float: left; height: 100px; width: 280px; background: @(i%2 == 0 ? "crimson" : "green")"></div>
+    }*@
+</div>
     
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
@@ -32,4 +37,35 @@
         if (url !== undefined)
             window.location.href = url;
     });
+
+    $('#notifications').click(function () {
+        if ($('#notificationsContainer').is(':visible')) {
+            $('#notificationsContainer').css('display', 'none');
+
+        } else {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                url: "@Url.Action("GetNotifications", "UserProfile")",
+                success: function (data) {
+                    var length = data.length;
+                    console.log(length);
+                    if (length > 0) {
+                        for (var index = 0; index < length; index++) {
+                            var notificationDiv = '<div class="notificationDiv" user-id="' + data[index].UserID + '" sport-event-id="' + data[index].SportEventID + '"><span class="notificationDivDescription">' + data[index].Description +'</span><br/><button id="approve-notify" class="btn btn-success mt-2 mr-2 mb-2 notifyButtons">✓</button><button id="reject-notify" class="btn btn-danger mt-2 mr-2 mb-2 notifyButtons">X</button></div>';
+                            $("#notificationsContainer").append(notificationDiv);
+                        }
+                    }
+                    console.log(data);
+                }
+            });
+            $('#notificationsContainer').css('display', 'block');
+            $('#notificationsContainer').css('left', $('#notifications').offset().left - 270);
+        }
+    });
+
+    window.onresize = function(event) {
+        $('#notificationsContainer').css('left', $('#notifications').offset().left - 270);
+    };
 </script>
