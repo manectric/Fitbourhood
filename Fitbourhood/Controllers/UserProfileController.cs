@@ -29,5 +29,15 @@ namespace Fitbourhood.Controllers
             var notifications = UsersRepository.GetNotificationsForUser(UserContextHelper.GetUserContextModel().ID);
             return Json(notifications);
         }
+
+        public JsonResult RespondToNotification(int userId, int sportEventId, string description)
+        {
+            bool result = false;
+
+            result = UsersRepository.RespondToNotification(userId, sportEventId, description);
+
+            return Json(result);
+        }
+
     }
 }

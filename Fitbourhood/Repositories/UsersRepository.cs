@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -124,6 +125,32 @@ namespace Fitbourhood.Repositories
             using (var connection = new SqlConnection(ConnectionString))
             {
                 result = connection.Query<Notification>(sqlSelectUserAchievements, new { UserID = userId, }).ToList();
+            }
+
+            return result;
+        }
+
+        public static bool RespondToNotification(int userId, int sportEventId, string description)
+        {
+            bool result = false;
+
+            string sqlSetFlagForNotification = " UPDATE [dbo].[Notifications] "
+            + " SET IsApproved = 1 "
+            + " WHERE UserID = @UserID AND SportEventID = @SportEventID ";
+
+            string sqlSetFlagForUserSportEvent = " UPDATE [dbo].[Users_SportEvents] "
+            + " SET " + (description.ToLower(CultureInfo.InvariantCulture).Contains("potwierdź") ? " IsApproved " : " IsApprovedByCreator ") +  " = 1 "
+            + " WHERE UserID = @UserID AND SportEventID = @SportEventID ";
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var affectedRowsFirstCommand = connection.Execute(sqlSetFlagForNotification, new { UserID = userId, SportEventID = sportEventId });
+                if (affectedRowsFirstCommand > 0)
+                {
+                    var affectedRowsSecondCommand = connection.Execute(sqlSetFlagForUserSportEvent, new { UserID = userId, SportEventID = sportEventId});
+                    if (affectedRowsSecondCommand > 0)
+                        result = true;
+                }
             }
 
             return result;

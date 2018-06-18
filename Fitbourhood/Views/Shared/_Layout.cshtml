@@ -19,10 +19,6 @@
     @RenderBody()
 </div>
 <div id="notificationsContainer">
-    @*@for (int i = 0; i <= 10; i++)
-    {
-        <div style="float: left; height: 100px; width: 280px; background: @(i%2 == 0 ? "crimson" : "green")"></div>
-    }*@
 </div>
     
 @Scripts.Render("~/bundles/bootstrap")
@@ -50,20 +46,44 @@
                 url: "@Url.Action("GetNotifications", "UserProfile")",
                 success: function (data) {
                     var length = data.length;
-                    console.log(length);
                     if (length > 0) {
                         for (var index = 0; index < length; index++) {
-                            var notificationDiv = '<div class="notificationDiv" user-id="' + data[index].UserID + '" sport-event-id="' + data[index].SportEventID + '"><span class="notificationDivDescription">' + data[index].Description +'</span><br/><button id="approve-notify" class="btn btn-success mt-2 mr-2 mb-2 notifyButtons">✓</button><button id="reject-notify" class="btn btn-danger mt-2 mr-2 mb-2 notifyButtons">X</button></div>';
+                            var notificationDiv = '<div class="notificationDiv" user-id="' + data[index].UserID + '" sport-event-id="' + data[index].SportEventID + '"><span class="notificationDivDescription">' + data[index].Description +'</span><br/>'+ (data[index].IsApproved ? '' : '<button id="approve-notify" class="btn btn-success mt-2 mr-2 mb-2 notifyButtons">✓</button><button id="reject-notify" class="btn btn-danger mt-2 mr-2 mb-2 notifyButtons">X</button>') + '</div>';
                             $("#notificationsContainer").append(notificationDiv);
                         }
                     }
-                    console.log(data);
                 }
             });
             $('#notificationsContainer').css('display', 'block');
             $('#notificationsContainer').css('left', $('#notifications').offset().left - 270);
         }
     });
+
+    $(document).on('click', '#approve-notify,#reject-notify', function () {
+        var parent = $(this).parent();
+        var userId = parent.attr('user-id');
+        var sportEventId = parent.attr('sport-event-id');
+        var description = parent.find('span').text();
+        if (userId != null && userId !== '' && sportEventId != null && sportEventId !== '') {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                data: { userId, sportEventId, description },
+                url: "@Url.Action("RespondToNotification", "UserProfile")",
+                success: function (data) {
+                    console.log(data);
+                    if (data == true) {
+                        var acceptButton = parent.find('#approve-notify');
+                        var rejectButton = parent.find('#reject-notify');
+                        acceptButton.remove();
+                        rejectButton.remove();
+                    }
+                }
+            });
+        }
+    }); 
+
 
     window.onresize = function(event) {
         $('#notificationsContainer').css('left', $('#notifications').offset().left - 270);
