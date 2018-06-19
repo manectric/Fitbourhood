@@ -19,6 +19,7 @@ namespace Fitbourhood.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required(ErrorMessage = "Hasło jest wymagane")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Hasło musi zawierać od 8 do 15 znaków<br/>Minimum 1 znak specjalny, cyfrę, małe oraz duże litery")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Ponowne podanie hasła jest wymagane")]
         [DataType(DataType.Password)]

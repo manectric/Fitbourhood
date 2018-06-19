@@ -119,16 +119,13 @@ D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\Microsoft.DiaSymReader.Native.amd
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\Microsoft.Managed.Core.targets
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\Microsoft.VisualBasic.Core.targets
-D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\Microsoft.Win32.Primitives.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.AppContext.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Collections.Immutable.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Console.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
-D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Diagnostics.Process.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Diagnostics.StackTrace.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.IO.Compression.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.IO.FileSystem.dll
-D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.IO.FileSystem.Primitives.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.IO.Pipes.AccessControl.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.IO.Pipes.dll
@@ -141,7 +138,6 @@ D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Security.Cryptography.Prim
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Security.Principal.Windows.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Text.Encoding.CodePages.dll
-D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Threading.Thread.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.ValueTuple.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Xml.ReaderWriter.dll
 D:\Projekty\Fitbourhood\Fitbourhood\bin\roslyn\System.Xml.XmlDocument.dll

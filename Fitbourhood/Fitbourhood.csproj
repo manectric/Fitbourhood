@@ -166,6 +166,7 @@
     <Compile Include="Models\SportEventListModel.cs" />
     <Compile Include="Models\UserContextModel.cs" />
     <Compile Include="Models\UserAchievementModel.cs" />
+    <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="ViewModels\SportEventListViewModel.cs" />
     <Compile Include="Models\UserRegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -155,5 +155,68 @@ namespace Fitbourhood.Repositories
 
             return result;
         }
+
+        public static bool ChangePassword(string password, int userId)
+        {
+            var result = false;
+            ErrorList = new List<string>();
+            string sqlUpdateUserPassword =
+                " UPDATE [dbo].[Users] "
+                + " SET Password = @Password "
+                + " WHERE ID = @UserID ";
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var passwordHash = GenerateHash(password);
+                var affectedRows = connection.Execute(sqlUpdateUserPassword, new { Password = passwordHash, UserID = userId });
+                if (affectedRows > 0)
+                    result = true;
+            }
+
+            return result;
+        }
+
+        public static UserProfileModel GetUserProfileModel(int id)
+        {
+            var result = new UserProfileModel();
+
+            result.DeclaredSportEvents = GetEventsApprovedByUser(id);
+            result.ApprovedSportEvents = GetEventsApprovedByCreator(id);
+
+            if (result.ApprovedSportEvents > 0 && result.DeclaredSportEvents > 0)
+            {
+                result.Percentage = Math.Round((double) (result.DeclaredSportEvents / result.ApprovedSportEvents), 2);
+            }
+
+            return result;
+        }
+
+        public static int GetEventsApprovedByUser(int userId)
+        {
+            var result = 0;
+            string sqlGetEventsApprovedByUser = 
+                "SELECT Count(ID) AS EventsApprovedByUser "
+                + " FROM [dbo].[Users_SportEvents] "
+                + " WHERE UserID = @UserID AND IsApproved = 1 ";
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                result = connection.Query<int>(sqlGetEventsApprovedByUser, new { UserID = userId, }).First();
+            }
+            return result;
+        }
+
+        public static int GetEventsApprovedByCreator(int userId)
+        {
+            var result = 0;
+            string sqlGetEventsApprovedByCreator =
+                "SELECT Count(ID) AS EventsApprovedByUser "
+                + " FROM [dbo].[Users_SportEvents] "
+                + " WHERE UserID = @UserID AND IsApprovedByCreator = 1 ";
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                result = connection.Query<int>(sqlGetEventsApprovedByCreator, new { UserID = userId, }).First();
+            }
+            return result;
+        }
     }
 }
